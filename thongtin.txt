@@ -1,7 +1,7 @@
 Tên: Châu Văn Hưng
 anh: anh1.jpg
 Tuổi: 26
-Chức vụ: ABC
+Chức vụ:     ABC
 Nghề nghiệp: 123
 Sở thích: dffff
 dv
@@ -37,4 +37,5 @@ f
 f
 hjggigi
 jgjgiuu
+
 =================
