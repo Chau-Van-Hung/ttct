@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thông Tin</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:#000814;
+    font-family:Arial;
+    overflow:hidden;
+}
+
+.container{
+    width:100vw;
+    height:100vh;
+    display:flex;
+}
+
+.left{
+    width:33%;
+    background:#001d3d;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.left img{
+    max-width:85%;
+    max-height:85%;
+    border:6px solid white;
+    box-shadow:0 0 25px #00b4d8;
+}
+
+.right{
+    width:67%;
+    position:relative;
+    overflow:hidden;
+    padding-left:60px;
+}
+
+.scroll{
+    position:absolute;
+    width:85%;
+    animation:scrollUp 25s linear infinite;
+}
+
+@keyframes scrollUp{
+    0%{ transform:translateY(100%); }
+    100%{ transform:translateY(-100%); }
+}
+
+.info{
+    font-size:48px;
+    line-height:90px;
+    font-weight:bold;
+    color:#ffd60a;
+    text-shadow:0 0 15px #ffc300;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="left">
+        <img id="photo" src="">
+    </div>
+
+    <div class="right">
+        <div class="scroll">
+            <div class="info" id="data">
+                ĐANG TẢI...
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+function getID(){
+    const params = new URLSearchParams(window.location.search);
+    return parseInt(params.get("id")) || 1;
+}
+
+fetch("thongtin.txt")
+.then(res => res.text())
+.then(text => {
+
+    const blocks = text.split("===").filter(b => b.trim() !== "");
+    const id = getID() - 1;
+
+    if(id < 0 || id >= blocks.length){
+        document.getElementById("data").innerHTML = "KHÔNG TÌM THẤY NGƯỜI";
+        return;
+    }
+
+    const lines = blocks[id].trim().split("\n");
+    let image = "";
+    let content = "";
+
+    lines.forEach(line=>{
+        if(line.startsWith("anh:")){
+            image = line.replace("anh:","").trim();
+        } else if(!line.startsWith("ten:")){
+            content += line + "<br>";
+        }
+    });
+
+    document.getElementById("photo").src = image;
+    document.getElementById("data").innerHTML = content;
+
+})
+.catch(()=>{
+    document.getElementById("data").innerHTML = "KHÔNG TÌM THẤY FILE";
+});
+
+</script>
+
+</body>
+</html>
